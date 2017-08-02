@@ -4,18 +4,20 @@
 
 var gulp         = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
-    browserify   = require('gulp-browserify'),
+    browserify   = require('browserify'),
     minifyCss    = require('gulp-clean-css'),
     gulpIf       = require('gulp-if'),
     plumber      = require('gulp-plumber'),
     sass         = require('gulp-sass'),
-    //uglify       = require('gulp-uglify'),
+    uglify       = require('gulp-uglify'),
     watch        = require('gulp-watch'),
     htmlmin      = require('gulp-htmlmin'),
     sourcemaps   = require('gulp-sourcemaps'),
     imagemin     = require('gulp-imagemin'),
     pngquant     = require('imagemin-pngquant'),
-    babel        = require('gulp-babel'),
+    babelify     = require('babelify'),
+    source       = require('vinyl-source-stream'),
+    buffer       = require('vinyl-buffer'),
     browserSync  = require('browser-sync').create();
 
 /*---------------------------
@@ -73,34 +75,21 @@ gulp.task('sass', function () {
             .pipe(browserSync.stream())
 });
 
-//CONCAT JS
-/*
-gulp.task('js', function () {
-   return gulp.src(jsSources)
-            .pipe(plumber({
-                errorHandler: onError
-            }))
-            .pipe(sourcemaps.init())
-            .pipe(concat('main.js'))
-            .pipe(browserify())
-            .pipe(gulpIf(env === 'production', uglify()))
-            .pipe(sourcemaps.write())
-            .pipe(gulp.dest(outputDir + '/js'))
-            .pipe(browserSync.stream())
-});
-*/
 
 //BABEL
 gulp.task('babel', function () {
-    return gulp.src('components/scripts/app.js')
-        .pipe(babel({
-            presets: ['es2015'],
-            plugins: ['transform-react-jsx']
-        }))
-        .pipe(browserify())
+    return browserify({entries: 'components/scripts/app.js', debug: true})
+        .transform("babelify", { presets: ["es2015", "react"] })
+        .bundle()
+        .pipe(source('all.js'))
+        .pipe(buffer())
+        //.pipe(sourcemaps.init({loadMaps: true}))
+        //.pipe(uglify())
+        //.pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(outputDir + "/js"))
         .pipe(browserSync.stream())
 });
+
 //MINIFY HTML
 gulp.task('minifyHTML', function () {
     return gulp.src(htmlSources)
