@@ -1,13 +1,11 @@
 
 var React = require("react"),
-    ReactDOM = require("react-dom"),
-    Test = require("./test");
+    ReactDOM = require("react-dom");
 
 class MyComponenet extends React.Component{
     render() {
         return (
             <div>Blaskowo1
-                <Test />
                 <ul>
                     <li></li>
                     <li></li>
