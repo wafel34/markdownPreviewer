@@ -6,11 +6,10 @@ class MyComponenet extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          text: "Random text for a beginning"
+            text: "Random text for a beginning"
         };
-        this.typing = this.typing.bind(this);
     }
-    typing (e){
+    typing = (e) =>{
         var currentVal = e.target.value;
         this.setState({
             text: currentVal
@@ -20,7 +19,7 @@ class MyComponenet extends React.Component{
         return (
             <div className="container">
                 <textarea className="input-area" defaultValue={this.state.text}
-                onChange={this.typing}>
+                    onChange={this.typing}>
 
                 </textarea>
                 <div className="output-area">{this.state.text}</div>

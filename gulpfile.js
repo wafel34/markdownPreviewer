@@ -78,7 +78,7 @@ gulp.task("sass", function () {
 //BABEL
 gulp.task("babel", function () {
     return browserify({entries: "components/scripts/app.js", debug: true})
-        .transform("babelify", { presets: ["es2015", "react"] })
+        .transform("babelify", { presets: ["es2015", "react"], plugins: ["transform-class-properties"] })
         .bundle()
         .pipe(source("all.js"))
         .pipe(buffer())

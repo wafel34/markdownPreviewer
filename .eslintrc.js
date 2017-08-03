@@ -1,4 +1,5 @@
 module.exports = {
+    "parser": "babel-eslint",
     "env": {
         "browser": true,
         "node" : true,
@@ -8,7 +9,9 @@ module.exports = {
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
-            "jsx": true
+            "jsx": true,
+            "arrowFunctions":true,
+            "classes":true
         },
         "sourceType": "module"
     },
