@@ -1,12 +1,13 @@
 
 var React = require("react"),
-    ReactDOM = require("react-dom");
+    ReactDOM = require("react-dom"),
+    marked = require("marked");
 
 class MyComponenet extends React.Component{
-    constructor(props) {
+    constructor (props) {
         super(props);
         this.state = {
-            text: "Random text for a beginning"
+            text: "__Random text for a beginning__"
         };
     }
     typing = (e) =>{
@@ -15,14 +16,20 @@ class MyComponenet extends React.Component{
             text: currentVal
         });
     }
-    render() {
+    getMarkdownText = () => {
+        var rawMarkup = marked(this.state.text);
+        return { __html: rawMarkup };
+    }
+    render () {
         return (
             <div className="container">
                 <textarea className="input-area" defaultValue={this.state.text}
                     onChange={this.typing}>
 
                 </textarea>
-                <div className="output-area">{this.state.text}</div>
+                <div className="output-area">
+                    <div dangerouslySetInnerHTML={this.getMarkdownText()}></div>
+                </div>
             </div>
         );
     }
